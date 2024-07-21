@@ -27,7 +27,11 @@ public class SpringController {
 	
 	@RequestMapping("/getBikes")
 	public List<Bikes> getBikes() {
+		methodName=":getBikes";
+		logger.info("{}::ENTER",methodName);
 	    List<Bikes> bikes=bikeService.getBikes();
+	    logger.info("Bikes :{}",bikes);
+	    logger.info("{}::EXIT",methodName);
 		return bikes;
 	}
 	
@@ -36,18 +40,25 @@ public class SpringController {
 		methodName=":getBike";
 		logger.info("{}::ENTER",methodName);
 		logger.info(id);
+		logger.info("id :{}",id);
 		logger.info("{}::EXIT",methodName);
 		return bikeService.getBike(id);
 	}
 	
+	// you can use @PostMapping("/addBikes") instead of @RequestMapping(method=RequestMethod.POST,value="/getBikes")
 	@RequestMapping(method=RequestMethod.POST,value="/getBikes")
 	public ResponseEntity<String>  addBikes(@RequestBody Bikes bikes) {
+		methodName=":addBikes";
+		logger.info("{}::ENTER",methodName);
 		try {
+			logger.info("invoking controller Service");
 			bikeService.addBikes(bikes);
+			logger.info("{}::EXIT",methodName);
 			return new ResponseEntity<>("Successfully added", HttpStatus.CREATED);
 		}catch(Exception e){
 			return new ResponseEntity<>("Failed to add bikes", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
 		
+	}
+	  
 }
